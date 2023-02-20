@@ -1,0 +1,15 @@
+1. Which customer has the highest credit limit?
+
+2. List the part description, warehouse, class, and unit_price of parts that are appliances or in warehouse 2, and that also have a higher  than average unit price.
+
+3. List the customer name and the length of order (number of days) who has the most recent order.
+
+4. Which sales reps made a sale between October 30, 2022 and November 28, 2022?   Include the sale date in your answer.
+
+5. List the part description, and the average quoted unit prices.  Only include those parts where the average is less than $500.  Label the output as Avg_Quoted_Price and format the output to two decimals.
+
+6. Which sales reps made a sale on October 30, 2022 or  November 28, 2022?
+
+7. List the sales reps, their customers and if they placed an order their orderdate.
+
+8.  List the parts that have never been purchased.

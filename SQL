@@ -1,38 +1,72 @@
 1. Which customer has the highest credit limit?
-SELECT creditlimit
 
-# List the part description, warehouse, class, and unit_price of parts that are appliances or in warehouse 2, and that also have a higher  than average unit price.
-SELECT description, warehouse, class, and unit_price 
-FROM part WHERE (class = 'AP' or warehouse = 2) AND unit_price > (SELECT AVG(unit_price) FROM part) 
+select customername from Customer
+where creditlimit = (select max(creditlimit)
+FROM Customer)
 
-# List the customer name and the length of order (number of days) who has the most recent order.
-SELECT customername, DATEDIFF (current_date, orderdate) AS TimeSinceOrdered
-FROM customer JOIN Orders ON customer.customernum = Orders.customernum
-WHERE datediff(current_date, orderdate) = (SELECT min(datediff(current_date, orderdate)) FROM Orders);
+2. List the part description, warehouse, class, and unit_price of parts that are appliances or in warehouse 2, and that also have a higher  than average unit price.
 
-SELECT customername, datediff(current_date, orderdate) TimeSinceOrdered
-FROM Customer JOJN orders on customer.customernun = orders.customernum
-WHERE orderdate = (SELECT MAX(orderdate) FROM orders);
+select description, class, warehouse, unit_price from part where (class = 'AP' or warehouse = 2) and unit_price > (select avg(unit_price from part)
 
-# Which sales reps made a sale between October 30, 2022 and November 28, 2022?   Include the sale date in your answer.
-SELECT lastname, firstname, orderdate
-FROM rep JOIN customer ON rep.repnum = customer.repnum
-JOIN orders ON customer.customernum = orders.customernum
-WHERE orderdate BETWEEN '2022-10-30' AND '2022-11-28';
+3. List the customer name and the length of order 
+(number of days) who has the most recent order. 
+(Either answer below is correct)
 
-SELECT lastname, firstname, orderdate
-FROM rep JOIN customer ON rep.reonum = customer.repnum
+select customername, datediff(current_date, orderdate) as TimeSinceOrdered
+from Customer join Orders on Customer.customernum=
+Orders.customernum
+where datediff(current_date, orderdate) = (select
+min(datediff(current_date, orderdate)) from Orders);
 
-# List the part description, and the average quoted unit prices.  Only include those parts where the average is less than $500.  Label the output as Avg_Quoted_Price and format the output to two decimals.
-SELECt description, ROUND(AVG(quotedprice),2) AS Avg_Quoted_Price
-FROM Part Join Orderline on Part.partnum = Orderline.partnum
-GROUP BY description
-HAVING AVG(quotedprice) < 500
+select customername, datediff(current_date, orderdate) TimeSinceOrdered
+from Customer join Orders on Customer.customernum=
+Orders.customernum
+where orderdate = (select max(orderdate) from Orders);
 
-# Which sales reps made a sale on October 30, 2022 or  November 28, 2022?
-SELECT lastname, firstname, orderdate
-FROM rep JOIN customer ON rep.repnum = customer.repnum
-JOIN orders on customer.customernum = orders
-7. List the sales reps, their customers and if they placed an order their orderdate.
+4.  Which sales reps made a sale between October 30, 2022 and November 28, 2022?   Include the sale date in your answer.
+ (Either answer below is correct)
+
+select lastname, firstname, orderdate
+from Rep join Customer on Rep.repnum=Customer.repnum 
+join Orders on Customer.customernum=Orders.customernum
+where orderdate between '2022-10-30' and '2022-11-28';
+
+select lastname, firstname, orderdate
+from Rep join Customer on Rep.repnum=Customer.repnum 
+join Orders on Customer.customernum=Orders.customernum
+where orderdate >= '2022-10-30' and orderdate <= '2022-11-28';
+
+5.  List the part description, and the average quoted unit prices.  
+Only include those parts where the average is less than $500.  
+Label the output as Avg_Quoted_Price and format the output to two decimals.
+
+select description, round(avg(quotedprice),2) as Avg_Quoted_Price
+from Part join OrderLine on Part.partnum=OrderLine.partnum
+group by description
+having avg(quotedprice) < 500
+
+6. Which sales reps made a sale on October 30, 2022 or  November 28, 2022?
+ (Either answer below is correct)
+
+select lastname, firstname, orderdate
+from Rep join Customer on Rep.repnum=Customer.repnum 
+join Orders on Customer.customernum=Orders.customernum
+where orderdate in ('2022-10-30', '2022-11-28');
+
+select lastname, firstname, orderdate
+from Rep join Customer on Rep.repnum=Customer.repnum 
+join Orders on Customer.customernum=Orders.customernum
+where orderdate = '2022-10-30' or orderdate = '2022-11-28';
+
+7.  List the sales reps, their customers and if they placed 
+an order their orderdate.
+
+select lastname, firstname, customername, Orderdate 
+from Rep join Customer on Rep.repnum=Customer.repnum left join 
+Orders on Customer.customernum=Orders.customernum
 
 8.  List the parts that have never been purchased.
+
+select description from Part where partnum 
+not in (select partnum from OrderLine)
+
